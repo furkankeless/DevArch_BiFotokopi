@@ -34,7 +34,7 @@ namespace DataAccess.Concrete.EntityFramework
                               select new StorageDto
                               {
                                   Id = store.Id,
-                                  ProductId = store.Id,
+                                  ProductId = store.ProductId,
                                   ProductName = product.ProductName,
                                   IsReady = store.IsReady,
                                   UnitsInStock = store.UnitsInStock,

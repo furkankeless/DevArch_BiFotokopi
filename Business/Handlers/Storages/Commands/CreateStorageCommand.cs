@@ -60,7 +60,7 @@ namespace Business.Handlers.Storages.Commands
                 {
                     CreatedUserId = request.CreatedUserId,
                     CreatedDate = DateTime.Now,
-                    LastUpdatedUserId = request.LastUpdatedUserId,
+                    LastUpdatedUserId = request.CreatedUserId,
                     LastUpdatedDate = DateTime.Now,
                     Status = true,
                     isDeleted = false,
