@@ -34,6 +34,8 @@ namespace Business.Handlers.Storages.Commands
         public int UnitsInStock { get; set; }
         public bool IsReady { get; set; }
 
+        public string Color { get; set; }
+
 
         public class CreateStorageCommandHandler : IRequestHandler<CreateStorageCommand, IResult>
         {

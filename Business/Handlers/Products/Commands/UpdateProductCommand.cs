@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Core.Aspects.Autofac.Validation;
 using Business.Handlers.Products.ValidationRules;
-
+using System;
 
 namespace Business.Handlers.Products.Commands
 {
@@ -52,9 +52,10 @@ namespace Business.Handlers.Products.Commands
 
 
                 isThereProductRecord.CreatedUserId = request.CreatedUserId;
-                isThereProductRecord.CreatedDate = request.CreatedDate;
+                isThereProductRecord.CreatedDate = DateTime.Now;
+
                 isThereProductRecord.LastUpdatedUserId = request.LastUpdatedUserId;
-                isThereProductRecord.LastUpdatedDate = request.LastUpdatedDate;
+                isThereProductRecord.LastUpdatedDate = DateTime.Now;
                 isThereProductRecord.Status = request.Status;
                 isThereProductRecord.isDeleted = request.isDeleted;
                 isThereProductRecord.ProductName = request.ProductName;

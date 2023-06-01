@@ -11,6 +11,6 @@ namespace Entities.Concrete
     {
         public string ProductName { get; set; }
         public string ProductColor { get; set; }
-        public ESize Size { get; set; }
+        public string Size { get; set; } 
     }
 }

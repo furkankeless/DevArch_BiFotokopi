@@ -39,14 +39,12 @@ namespace Business.Handlers.Orders.Commands
 
         public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, IResult>
         {
-            private readonly IStorageRepository _storageRepository;
             private readonly IOrderRepository _orderRepository;
             private readonly IMediator _mediator;
-            public CreateOrderCommandHandler(IOrderRepository orderRepository, IMediator mediator, IStorageRepository storageRepository)
+            public CreateOrderCommandHandler(IOrderRepository orderRepository, IMediator mediator)
             {
                 _orderRepository = orderRepository;
                 _mediator = mediator;
-                _storageRepository = storageRepository;
             }
 
             [ValidationAspect(typeof(CreateOrderValidator), Priority = 1)]
@@ -55,13 +53,13 @@ namespace Business.Handlers.Orders.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
             {
-                var storageControll = _storageRepository.Query().Any(u => u.ProductId == request.ProductId && u.IsReady==true && u.isDeleted==false && u.UnitsInStock>request.Amount);
+                //var storageControll = _storageRepository.Query().Any(u => u.ProductId == request.ProductId && u.IsReady==true && u.isDeleted==false && u.UnitsInStock>request.Amount);
 
 
-                if (storageControll == false)
+                /*if (storageControll == false)
                 {
                     return new ErrorResult("Sipariş ettiğiniz ürün depoda bulunamamıştır veya yeterli sayıda yoktur");
-                }
+                }*/
 
 
                 //var orderAmount = _orderRepository.Query().Any(u=>u.ProductId==request.ProductId && u.Amount == request.Amount);

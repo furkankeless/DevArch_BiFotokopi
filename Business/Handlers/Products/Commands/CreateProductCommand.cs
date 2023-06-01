@@ -32,7 +32,8 @@ namespace Business.Handlers.Products.Commands
         public string ProductName { get; set; }
         public string ProductColor { get; set; }
 
-        public ESize Size { get; set; }
+        public string Size { get; set; }
+
 
 
         public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, IResult>
@@ -62,11 +63,13 @@ namespace Business.Handlers.Products.Commands
                     CreatedDate = DateTime.Now,
                     LastUpdatedUserId = request.LastUpdatedUserId,
                     LastUpdatedDate = DateTime.Now,
-                    Status = true,
-                    isDeleted = false,
+                    Status = request.Status,
+                    isDeleted = request.isDeleted,
                     ProductName = request.ProductName,
                     ProductColor = request.ProductColor,
                     Size = request.Size,
+
+
 
                 };
 
