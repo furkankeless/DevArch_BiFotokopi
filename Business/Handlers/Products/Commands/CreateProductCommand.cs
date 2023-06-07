@@ -64,7 +64,7 @@ namespace Business.Handlers.Products.Commands
                     LastUpdatedUserId = request.LastUpdatedUserId,
                     LastUpdatedDate = DateTime.Now,
                     Status = request.Status,
-                    isDeleted = request.isDeleted,
+                    isDeleted =request.isDeleted,
                     ProductName = request.ProductName,
                     ProductColor = request.ProductColor,
                     Size = request.Size,

@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace Entities.Dtos
 {
-    public class ProductDto: Concrete.BaseEntity, IDto
+    public class OrderDto: BaseEntity, Core.Entities.IDto
     {
-        public string UserName { get; set; }
-
-        public int  UserId { get; set; }
+        public string CostumerName { get; set; }
 
         public string ProductName { get; set; }
 
-        public string ProductColor { get; set; }
-
+        public int CustomerId { get; set; }
+        public int ProductId { get; set; }
+        public int Amount { get; set; }
         public string Size { get; set; }
     }
 }

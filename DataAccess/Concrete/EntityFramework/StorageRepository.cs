@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Entities.Dtos;
 using Core.Entities.Concrete;
+using static MongoDB.Driver.WriteConcern;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -19,11 +20,11 @@ namespace DataAccess.Concrete.EntityFramework
         {
         }
 
-        public async Task<bool> ExistsProduct(int productId, string size, int amount)
-        {
-            var isOkeyWareHouse = await Context.Storages.AnyAsync(u => u.ProductId == productId && u.UnitsInStock >= amount && u.IsReady == true && u.isDeleted == false);
-            return isOkeyWareHouse;
-        }
+        //public async Task<bool> ExistsProduct(int productId, string size, int amount)
+        //{
+        //    var isOkeyWareHouse = await Context.Storages.AnyAsync(u => u.ProductId == productId && u.UnitsInStock >= amount && u.IsReady == true && u.isDeleted == false);
+        //    return isOkeyWareHouse;
+        //}
 
         public async Task<IEnumerable<StorageDto>> GetStorageDtos()
         {
@@ -48,6 +49,12 @@ namespace DataAccess.Concrete.EntityFramework
                               }).ToListAsync();
 
             return list;
+        }
+
+        public async Task<bool> StorageReadyControll(int productId, bool status)
+        {
+            var isOkeyWareHouse = await Context.Storages.AnyAsync(u => u.ProductId == productId  && u.Status==status && u.isDeleted == false) ;
+               return isOkeyWareHouse;
         }
     }
 }

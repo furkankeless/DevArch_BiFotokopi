@@ -10,7 +10,7 @@ namespace DataAccess.Abstract
 {
     public interface IStorageRepository : IEntityRepository<Storage>
     {
-        Task<Boolean> ExistsProduct(int productId, string size, int amount);
+        
         Task<IEnumerable<StorageDto>>  GetStorageDtos();
     }
 }

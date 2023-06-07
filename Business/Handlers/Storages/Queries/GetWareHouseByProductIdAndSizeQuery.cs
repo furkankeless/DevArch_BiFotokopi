@@ -16,6 +16,8 @@ namespace Business.Handlers.WareHouses.Queries
         public int ProductId { get; set; }
         public string Size { get; set; }
 
+
+
         public class GetWareHouseByProductIdAndSizeQueryHandler : IRequestHandler<GetWareHouseByProductIdAndSizeQuery, IDataResult<Storage>>
         {
             private readonly IStorageRepository _wareHouseRepository;

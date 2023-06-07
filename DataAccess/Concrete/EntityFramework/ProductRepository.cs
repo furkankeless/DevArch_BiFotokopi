@@ -34,6 +34,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastUpdatedUserId = p.LastUpdatedUserId,
                                  Status = p.Status,
                                  UserId=user.UserId,
+                                 ProductColor=p.ProductColor,
+                                 ProductName=p.ProductName,
+                                 Size=p.Size,
                              }).ToListAsync();
 
             return list;

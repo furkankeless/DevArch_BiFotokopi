@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Entities.Concrete;
 using System.Collections.Generic;
+using Business.Handlers.Storages.Queries;
+using Entities.Dtos;
 
 namespace WebAPI.Controllers
 {
@@ -36,7 +38,25 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
-
+        ///<summary>
+        ///List Storages
+        ///</summary>
+        ///<remarks>Storages</remarks>
+        ///<return>List Storages</return>
+        ///<response code="200"></response>
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OrderDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpGet("getdtos")]
+        public async Task<IActionResult> GetDtoList()
+        {
+            var result = await Mediator.Send(new OrderDtoQuery());
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
+        }
         ///<summary>
         ///It brings the details according to its id.
         ///</summary>

@@ -34,7 +34,6 @@ namespace Business.Handlers.Storages.Commands
         public int UnitsInStock { get; set; }
         public bool IsReady { get; set; }
 
-        public string Color { get; set; }
 
 
         public class CreateStorageCommandHandler : IRequestHandler<CreateStorageCommand, IResult>
@@ -53,7 +52,7 @@ namespace Business.Handlers.Storages.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateStorageCommand request, CancellationToken cancellationToken)
             {
-                var isThereStorageRecord = _storageRepository.Query().Any(u => u.ProductId == request.ProductId && u.UnitsInStock == request.UnitsInStock && u.IsReady == true && u.isDeleted==false);
+                var isThereStorageRecord = _storageRepository.Query().Any(u => u.ProductId==request.ProductId);
 
                 if (isThereStorageRecord == true)
                     return new ErrorResult(Messages.NameAlreadyExist);
@@ -64,11 +63,11 @@ namespace Business.Handlers.Storages.Commands
                     CreatedDate = DateTime.Now,
                     LastUpdatedUserId = request.CreatedUserId,
                     LastUpdatedDate = DateTime.Now,
-                    Status = true,
-                    isDeleted = false,
+                    Status = request.Status,
+                    isDeleted = request.isDeleted,
                     ProductId = request.ProductId,
                     UnitsInStock = request.UnitsInStock,
-                    IsReady = true,
+                    IsReady = request.IsReady,
 
                 };
 

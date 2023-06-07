@@ -16,6 +16,7 @@ using Business.Handlers.Orders.ValidationRules;
 using System;
 using Business.Handlers.Storages.Commands;
 using Business.Handlers.WareHouses.Queries;
+using DataAccess.Concrete.EntityFramework;
 
 namespace Business.Handlers.Orders.Commands
 {
@@ -53,16 +54,26 @@ namespace Business.Handlers.Orders.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
             {
-                //var storageControll = _storageRepository.Query().Any(u => u.ProductId == request.ProductId && u.IsReady==true && u.isDeleted==false && u.UnitsInStock>request.Amount);
 
 
-                /*if (storageControll == false)
+
+
+                var storageControll = _orderRepository.Query().Any(P=>P.ProductId == request.ProductId && request.Status==true && request.isDeleted==false);
+
+                if (storageControll != true)
                 {
-                    return new ErrorResult("Sipariş ettiğiniz ürün depoda bulunamamıştır veya yeterli sayıda yoktur");
-                }*/
+                    return new ErrorResult("Siparişiniz satışa uygun değildir");
+                }
+
+                var isOkey = await _mediator.Send(new StorageReadyControll { ProductId=request.ProductId,Status=request.Status});
+
+                if (isOkey.Data.ProductId != request.ProductId )
+                {
+                    return new ErrorResult("Sipariş etmek istediğniz ürün depoda bulanamamıştır");
+
+                }
 
 
-                //var orderAmount = _orderRepository.Query().Any(u=>u.ProductId==request.ProductId && u.Amount == request.Amount);
                 var storageRecord = await _mediator.Send(new GetWareHouseByProductIdAndSizeQuery { ProductId = request.ProductId, Size = request.Size });
 
                 storageRecord.Data.UnitsInStock = storageRecord.Data.UnitsInStock - request.Amount;
