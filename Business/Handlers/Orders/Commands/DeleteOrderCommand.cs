@@ -41,6 +41,7 @@ namespace Business.Handlers.Orders.Commands
                 _orderRepository.Delete(orderToDelete);
                 await _orderRepository.SaveChangesAsync();
                 return new SuccessResult(Messages.Deleted);
+
             }
         }
     }

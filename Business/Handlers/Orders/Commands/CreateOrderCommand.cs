@@ -17,6 +17,10 @@ using System;
 using Business.Handlers.Storages.Commands;
 using Business.Handlers.WareHouses.Queries;
 using DataAccess.Concrete.EntityFramework;
+using Business.Handlers.Products.Queries;
+using Microsoft.VisualBasic;
+using Business.Handlers.Storages.Queries;
+using static Business.Handlers.Products.Queries.GetSizeQuery;
 
 namespace Business.Handlers.Orders.Commands
 {
@@ -58,23 +62,40 @@ namespace Business.Handlers.Orders.Commands
 
 
 
-                var storageControll = _orderRepository.Query().Any(P=>P.ProductId == request.ProductId && request.Status==true && request.isDeleted==false);
+                //var storageControll = _orderRepository.Query().Any(p=> p.Status == false || );
 
-                if (storageControll != true)
+                //if (storageControll == true)
+                //{
+                //    return new ErrorResult("Siparişiniz satışa uygun değildir");
+                //}
+
+                // var isOkey = await _mediator.Send(new StorageReadyControll { ProductId=request.ProductId,Status=request.Status});
+
+                //if (isOkey.Data != true)
+                // {
+                //   return new ErrorResult("Sipariş etmek istediğniz ürün depoda bulanamamıştır");
+                // }
+
+                var getSize = await _mediator.Send(new GetSizeQuery { ProductId = request.ProductId, Size = request.Size });
+                if (getSize.Data == true)
                 {
-                    return new ErrorResult("Siparişiniz satışa uygun değildir");
+                    return new ErrorResult("Depoya eklemek istediğiniz ürünün size  bulunmamaktadır ");
                 }
 
-                var isOkey = await _mediator.Send(new StorageReadyControll { ProductId=request.ProductId,Status=request.Status});
+                var storageRecord = await _mediator.Send(new GetWareHouseByProductIdAndSizeQuery { ProductId = request.ProductId, Size = request.Size});
 
-                if (isOkey.Data.ProductId != request.ProductId )
+                if (!storageRecord.Success || storageRecord.Data == null)
                 {
-                    return new ErrorResult("Sipariş etmek istediğniz ürün depoda bulanamamıştır");
-
+                    return new ErrorResult("Sipariş etmek istedğiniz ürün depoda bulunanamıştır ");
                 }
 
+                var amountControl = await _mediator.Send(new AmountControllQuery { ProductId = request.ProductId, Amount = request.Amount });
 
-                var storageRecord = await _mediator.Send(new GetWareHouseByProductIdAndSizeQuery { ProductId = request.ProductId, Size = request.Size });
+                if (amountControl.Data==true)
+                {
+
+                    return new ErrorResult("Sipariş miktarınız depoda olan ürün sayısında fazla");
+                }
 
                 storageRecord.Data.UnitsInStock = storageRecord.Data.UnitsInStock - request.Amount;
 

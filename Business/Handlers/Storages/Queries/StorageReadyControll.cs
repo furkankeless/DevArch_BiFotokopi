@@ -11,11 +11,11 @@ using Core.Aspects.Autofac.Logging;
 namespace Business.Handlers.WareHouses.Queries
 {
 
-    public class StorageReadyControll : IRequest<IDataResult<Storage>>
+    public class StorageReadyControll : IRequest<IDataResult<bool>>
     {
         public int ProductId { get; set; }
         public bool Status { get; set; }
-        public class StorageReadyControllHandler : IRequestHandler<StorageReadyControll, IDataResult<Storage>>
+        public class StorageReadyControllHandler : IRequestHandler<StorageReadyControll, IDataResult<bool>>
         {
             private readonly IStorageRepository _storageRepository;
             private readonly IMediator _mediator;
@@ -27,10 +27,10 @@ namespace Business.Handlers.WareHouses.Queries
             }
             [LogAspect(typeof(FileLogger))]
             [SecuredOperation(Priority = 1)]
-            public async Task<IDataResult<Storage>> Handle(StorageReadyControll request, CancellationToken cancellationToken)
+            public async Task<IDataResult<bool>> Handle(StorageReadyControll request, CancellationToken cancellationToken)
             {
-                var storageReady = await _storageRepository.GetAsync(p => p.ProductId == request.ProductId && p.Status == request.Status);
-                return new SuccessDataResult<Storage>(storageReady);
+                return new SuccessDataResult<bool>(await _storageRepository.StorageReadyControll(request.ProductId, request.Status));
+
             }
         }
     }

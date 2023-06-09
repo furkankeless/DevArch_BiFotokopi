@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         [HttpGet("getdto")]
         public async Task<IActionResult> GetDtoList()
         {
-            var result = await Mediator.Send(new ProductDtoQuery());
+            var result = await Mediator.Send(new GetProductDtoQuery());
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -109,18 +109,36 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+        ///// <summary>
+        ///// Delete Product.
+        ///// </summary>
+        ///// <param name="deleteProduct"></param>
+        ///// <returns></returns>
+        //[Produces("application/json", "text/plain")]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        //[HttpDelete]
+        //public async Task<IActionResult> Delete([FromBody] DeleteProductCommand deleteProduct)
+        //{
+        //    var result = await Mediator.Send(deleteProduct);
+        //    if (result.Success)
+        //    {
+        //        return Ok(result.Message);
+        //    }
+        //    return BadRequest(result.Message);
+        //}
         /// <summary>
         /// Delete Product.
         /// </summary>
-        /// <param name="deleteProduct"></param>
+        /// <param name="productId"></param>
         /// <returns></returns>
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeleteProductCommand deleteProduct)
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> Delete2(int productId)
         {
-            var result = await Mediator.Send(deleteProduct);
+            var result = await Mediator.Send(new DeleteProductCommand { Id = productId });
             if (result.Success)
             {
                 return Ok(result.Message);

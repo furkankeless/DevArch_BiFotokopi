@@ -10,7 +10,8 @@ namespace DataAccess.Abstract
 {
     public interface IStorageRepository : IEntityRepository<Storage>
     {
-        
+        Task<Boolean> StorageReadyControll(int productId, bool status);
         Task<IEnumerable<StorageDto>>  GetStorageDtos();
+        Task<Boolean> AmountControll(int productId, int amount);
     }
 }

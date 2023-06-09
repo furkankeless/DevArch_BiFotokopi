@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
         [HttpGet("getdtos")]
         public async Task<IActionResult> GetDtoList()
         {
-            var result = await Mediator.Send(new OrderDtoQuery());
+            var result = await Mediator.Send(new GetOrderDtoQuery());
             if (result.Success)
             {
                 return Ok(result.Data);

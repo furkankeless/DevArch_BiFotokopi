@@ -20,6 +20,14 @@ namespace DataAccess.Concrete.EntityFramework
         {
         }
 
+        public async Task<bool> AmountControll(int productId, int amount)
+        {
+            var isOkey = await Context.Storages.AnyAsync(p=>p.ProductId == productId && p.UnitsInStock < amount);
+            return isOkey;
+        }
+
+
+
         //public async Task<bool> ExistsProduct(int productId, string size, int amount)
         //{
         //    var isOkeyWareHouse = await Context.Storages.AnyAsync(u => u.ProductId == productId && u.UnitsInStock >= amount && u.IsReady == true && u.isDeleted == false);
@@ -45,7 +53,8 @@ namespace DataAccess.Concrete.EntityFramework
                                   isDeleted = store.isDeleted,
                                   LastUpdatedDate = store.LastUpdatedDate,
                                   LastUpdatedUserId = store.LastUpdatedUserId,
-                                  Status = store.Status
+                                  Status = store.Status,
+                                  Size = store.Size
                               }).ToListAsync();
 
             return list;
@@ -53,8 +62,8 @@ namespace DataAccess.Concrete.EntityFramework
 
         public async Task<bool> StorageReadyControll(int productId, bool status)
         {
-            var isOkeyWareHouse = await Context.Storages.AnyAsync(u => u.ProductId == productId  && u.Status==status && u.isDeleted == false) ;
-               return isOkeyWareHouse;
+            var isOkeyStorage = await Context.Storages.AnyAsync(u => u.ProductId == productId && u.Status==true && u.IsReady == true && u.isDeleted == false);
+            return isOkeyStorage;
         }
     }
 }

@@ -17,9 +17,9 @@ using DataAccess.Concrete.EntityFramework;
 namespace Business.Handlers.Orders.Queries
 {
 
-    public class OrderDtoQuery : IRequest<IDataResult<IEnumerable<OrderDto>>>
+    public class GetOrderDtoQuery : IRequest<IDataResult<IEnumerable<OrderDto>>>
     {
-        public class OrderDtoQueryHandler : IRequestHandler<OrderDtoQuery, IDataResult<IEnumerable<OrderDto>>>
+        public class OrderDtoQueryHandler : IRequestHandler<GetOrderDtoQuery, IDataResult<IEnumerable<OrderDto>>>
         {
             private readonly IOrderRepository _orderRepository;
             private readonly IMediator _mediator;
@@ -34,7 +34,7 @@ namespace Business.Handlers.Orders.Queries
             [CacheAspect(10)]
             [LogAspect(typeof(FileLogger))]
             [SecuredOperation(Priority = 1)]
-            public async Task<IDataResult<IEnumerable<OrderDto>>> Handle(OrderDtoQuery request, CancellationToken cancellationToken)
+            public async Task<IDataResult<IEnumerable<OrderDto>>> Handle(GetOrderDtoQuery request, CancellationToken cancellationToken)
             {
                 return new SuccessDataResult<IEnumerable<OrderDto>>(await _orderRepository.OrderDtos());
             }

@@ -36,11 +36,20 @@ namespace Business.Handlers.Products.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
             {
-                var productToDelete = _productRepository.Get(p => p.Id == request.Id);
+                //var productToDelete = _productRepository.Get(p => p.Id == request.Id);
 
-                _productRepository.Delete(productToDelete);
-                await _productRepository.SaveChangesAsync();
-                return new SuccessResult(Messages.Deleted);
+                //_productRepository.Delete(productToDelete);
+                //await _productRepository.SaveChangesAsync();
+                //return new SuccessResult(Messages.Deleted);
+
+                var productToDelete2 = await _productRepository.Delete2(request.Id);
+
+                if (productToDelete2 != null)
+                {
+                    return new SuccessResult(Messages.Deleted);
+                }
+
+                return new ErrorResult("Kullanıcı bulunamadı");
             }
         }
     }

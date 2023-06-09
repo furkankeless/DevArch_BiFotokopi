@@ -1417,6 +1417,9 @@ namespace DataAccess.Migrations.Ms
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 

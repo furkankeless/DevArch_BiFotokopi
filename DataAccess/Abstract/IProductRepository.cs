@@ -11,5 +11,7 @@ namespace DataAccess.Abstract
     public interface IProductRepository : IEntityRepository<Product>
     {
         Task<IEnumerable<ProductDto>> GetProductsDtos();
+        Task<Product> Delete2(int productId);
+        Task<Boolean> GetSize(int productId, string size);
     }
 }

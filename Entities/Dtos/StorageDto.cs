@@ -17,6 +17,7 @@ namespace Entities.Dtos
         public int UnitsInStock { get; set; }
 
         public bool IsReady { get; set; }
-       
+
+        public string Size { get; set; }
     }
 }

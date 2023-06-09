@@ -16,9 +16,9 @@ using Entities.Dtos;
 namespace Business.Handlers.Products.Queries
 {
 
-    public class ProductDtoQuery : IRequest<IDataResult<IEnumerable<ProductDto>>>
+    public class GetProductDtoQuery : IRequest<IDataResult<IEnumerable<ProductDto>>>
     {
-        public class ProductDtoQueryHandler : IRequestHandler<ProductDtoQuery, IDataResult<IEnumerable<ProductDto>>>
+        public class ProductDtoQueryHandler : IRequestHandler<GetProductDtoQuery, IDataResult<IEnumerable<ProductDto>>>
         {
             private readonly IProductRepository _productRepository;
             private readonly IMediator _mediator;
@@ -33,7 +33,7 @@ namespace Business.Handlers.Products.Queries
             [CacheAspect(10)]
             [LogAspect(typeof(FileLogger))]
             [SecuredOperation(Priority = 1)]
-            public async Task<IDataResult<IEnumerable<ProductDto>>> Handle(ProductDtoQuery request, CancellationToken cancellationToken)
+            public async Task<IDataResult<IEnumerable<ProductDto>>> Handle(GetProductDtoQuery request, CancellationToken cancellationToken)
             {
                 return new SuccessDataResult<IEnumerable<ProductDto>>(await _productRepository.GetProductsDtos());
             }

@@ -15,6 +15,10 @@ using System.Linq;
 using Business.Handlers.Storages.ValidationRules;
 using MimeKit.Encodings;
 using System;
+using Business.Handlers.WareHouses.Queries;
+using Business.Handlers.Products.Queries;
+using Elasticsearch.Net;
+using static Business.Handlers.Products.Queries.GetSizeQuery;
 
 namespace Business.Handlers.Storages.Commands
 {
@@ -34,6 +38,8 @@ namespace Business.Handlers.Storages.Commands
         public int UnitsInStock { get; set; }
         public bool IsReady { get; set; }
 
+        public string Size { get; set; }
+
 
 
         public class CreateStorageCommandHandler : IRequestHandler<CreateStorageCommand, IResult>
@@ -52,6 +58,12 @@ namespace Business.Handlers.Storages.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateStorageCommand request, CancellationToken cancellationToken)
             {
+                var getSize = await _mediator.Send(new GetSizeQuery { ProductId = request.ProductId,Size=request.Size});
+                if (getSize.Data == true)
+                {
+                    return new ErrorResult("Depoya eklemek istediğiniz ürünün size  bulunmamaktadır ");
+                }
+
                 var isThereStorageRecord = _storageRepository.Query().Any(u => u.ProductId==request.ProductId);
 
                 if (isThereStorageRecord == true)
@@ -68,6 +80,7 @@ namespace Business.Handlers.Storages.Commands
                     ProductId = request.ProductId,
                     UnitsInStock = request.UnitsInStock,
                     IsReady = request.IsReady,
+                    Size = request.Size,
 
                 };
 

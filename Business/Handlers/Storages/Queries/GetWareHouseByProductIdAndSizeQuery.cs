@@ -16,6 +16,8 @@ namespace Business.Handlers.WareHouses.Queries
         public int ProductId { get; set; }
         public string Size { get; set; }
 
+        public int Amount { get; set; }
+
 
 
         public class GetWareHouseByProductIdAndSizeQueryHandler : IRequestHandler<GetWareHouseByProductIdAndSizeQuery, IDataResult<Storage>>
@@ -33,7 +35,7 @@ namespace Business.Handlers.WareHouses.Queries
             public async Task<IDataResult<Storage>> Handle(GetWareHouseByProductIdAndSizeQuery request, CancellationToken cancellationToken)
             {
 
-                var wareHouseByProductIdAndSize = await _wareHouseRepository.GetAsync(p => p.ProductId == request.ProductId && p.Status == true && p.isDeleted == false);
+                var wareHouseByProductIdAndSize = await _wareHouseRepository.GetAsync(p => p.ProductId == request.ProductId && p.Status == true && p.isDeleted == false );
                 return new SuccessDataResult<Storage>(wareHouseByProductIdAndSize);
             }
         }
